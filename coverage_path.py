@@ -4,11 +4,11 @@ class CoveragePath:
     """
     Represents a coverage path through a field.
     """
-    def __init__(self, path=set()):
+    def __init__(self, path=[]):
         self.path=path
     
-    def add_node(self, x,y):
-        self.path.add((x,y))
+    def add_node(self, node: tuple):
+        self.path.append(node)
     
     def is_valid_path(self, field: Field) -> bool:
         """
@@ -22,3 +22,6 @@ class CoveragePath:
                 if field.is_valid(x, y) and not ((x,y)) in self.path:
                     return False
         return True
+    
+    def __str__(self):
+        return str(self.path)

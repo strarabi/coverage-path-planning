@@ -1,5 +1,5 @@
 from typing import List
-from coverage_path import CoveragePath
+import matplotlib.pyplot as plt
 
 class Field:
     """
@@ -40,13 +40,14 @@ class Field:
             return False
         return (x,y) not in self.obstacles
 
-    def get_neighbors(self, x, y, diag=True):
+    def get_neighbors(self, node: tuple, diag=True):
         """
         Gets the neighbors for a node. If diag is True,
         uses Moore neighborhood (includes diagonal neighbors),
         otherwise uses Von Neumann neighborhood.
         """
         neighbors=[]
+        x,y=node
         directions = [(1,0), (0,1), (0,-1), (-1,0)]
         if diag:
             directions += [(1,1), (-1,-1), (1,-1), (-1,1)]
@@ -56,5 +57,18 @@ class Field:
                 neighbors.append((nx,ny))
         return neighbors
 
-    def visualize_path(self, path: CoveragePath):
-        pass
+    def visualize_path(self, path):
+        """
+        Visualizes the field and path using matplotlib. Note the visualization
+        requires the entire field to be loaded in memory, so this is not recommended
+        for experiments with large fields.
+        """
+        M=[]
+        for i in range(self.length):
+            row = []
+            for j in range(self.width):
+                val=self.vals[(i,j)]
+                row.append(val)
+            M.append(row)
+        
+        plt.imshow(M)
