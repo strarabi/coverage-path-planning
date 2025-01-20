@@ -1,5 +1,5 @@
-from Field import Field
-from typing import List
+from field import Field
+from coverage_path import CoveragePath
 
 class Planner:
     """
@@ -8,5 +8,5 @@ class Planner:
     def __init__(self):
         pass
 
-    def plan(self, field: Field) -> List:
+    def plan(self, field: Field) -> CoveragePath:
         pass
