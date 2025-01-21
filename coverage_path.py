@@ -23,5 +23,17 @@ class CoveragePath:
                     return False
         return True
     
+    def peek_left(self) -> tuple:
+        """
+        Returns the leftmost node in the coverage path
+        """
+        return self.path[0]
+    
+    def peek_right(self) -> tuple:
+        """
+        Returns the rightmost node in the coverage path
+        """
+        return self.path[-1]
+    
     def __str__(self):
         return str(self.path)

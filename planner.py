@@ -5,8 +5,8 @@ class Planner:
     """
     Abstract class for a Coverage Path Planning algorithm.
     """
-    def __init__(self):
-        pass
+    def __init__(self, field: Field):
+        self.field = field
 
-    def plan(self, field: Field) -> CoveragePath:
+    def plan(self) -> CoveragePath:
         pass

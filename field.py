@@ -37,7 +37,7 @@ class Field:
         Returns True if (x,y) is free of obstacles and within the configuration space,
         and False otherwise.
         """
-        if not (0<=x<=self.length and 0<=y<=self.width):
+        if not (0<=x<self.length and 0<=y<self.width):
             return False
         return (x,y) not in self.obstacles
 
@@ -58,21 +58,22 @@ class Field:
                 neighbors.append((nx,ny))
         return neighbors
 
-    def visualize_path(self, path):
+    def visualize_path(self, path, grid=False):
         """
         Visualizes the field and path using matplotlib. Note the visualization
         requires the entire field to be loaded in memory, so this is not recommended
         for experiments with large fields.
         """
-        M=[[0] * self.length] * self.width
-        
-        plt.imshow(M,cmap='Set2')
-        print(path.path)
-        X = [p[0] for p in path.path]
-        Y = [p[1] for p in path.path]
-        for i in range(0, len(X), 2):
-            plt.plot(X[i:i+2], Y[i:i+2], 'ro-')
+        M=[[0 for i in range(self.length)] for j in range(self.width)]
         for obs in self.obstacles:
             x,y=obs
-            plt.plot(x, y, 'ko')
+            M[y][x]=1
+        plt.imshow(M,cmap=matplotlib.colors.ListedColormap(['lightgray', 'firebrick'], name='colors', N=None))
+        X = [p[0] for p in path.path]
+        Y = [p[1] for p in path.path]
+        plt.plot(X,Y,'ko-')
+        if grid:
+            plt.xticks(range(self.length))
+            plt.yticks(range(self.width))
+            plt.grid(color='black', visible=True, which="both")
         plt.show()

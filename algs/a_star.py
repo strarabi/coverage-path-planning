@@ -19,22 +19,20 @@ class AStar(Planner):
         return abs(x1-x2) + abs(y1-y2)
 
     
-    def plan(self, field):
+    def plan(self):
         path=CoveragePath()
         pq=[] # priority queue
-        heapq.heappush(pq, (0, field.start))
-        cost_so_far={}
-        cost_so_far[field.start] = 0
-        path.add_node(field.start)
+        heapq.heappush(pq, (0, self.field.start))
+        visited = set()
+        visited.add(self.field.start)
+        path.add_node(self.field.start)
 
         while pq:
             _, node = heapq.heappop(pq)
-            for neighbor in field.get_neighbors(node):
-                new_cost = cost_so_far[node] + 1 # cost to travel to a neighbor is 1; could be changed based on field dynamics
-                if neighbor not in cost_so_far or new_cost < cost_so_far[neighbor]:
-                    cost_so_far[neighbor]=new_cost
-                    priority = new_cost + self._heuristic(node,neighbor)
+            for neighbor in self.field.get_neighbors(node):
+                if neighbor not in visited:
+                    visited.add(neighbor)
+                    path.add_node(neighbor)
+                    priority = len(visited) + self._heuristic(node, neighbor)
                     heapq.heappush(pq, (priority, neighbor))
-                    path.add_node(node)
-
         return path
