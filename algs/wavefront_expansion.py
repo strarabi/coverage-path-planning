@@ -9,48 +9,28 @@ class WavefrontExpansion(Planner):
         self.visited = set()
     
     def _bfs(self):
-        node_label = 3 # start at 3, since 0, 1, and 2 are already used in the field
+        node_label = 2 # start at 3, since 0, and 1 are already used in the field
         q=deque()
         q.append(self.field.start)
         visited = set()
+        visited.add(self.field.start)
 
         while q:
-            node = q.popleft()
-            self.node_labels[node] = node_label
+            qLen=len(q)
+            for _ in range(qLen):
+                node = q.popleft()
+                self.node_labels[node] = node_label
+                for neighbor in self.field.get_neighbors(node):
+                    if neighbor not in visited:
+                        visited.add(neighbor)
+                        q.append(neighbor)
             node_label += 1
-            visited.add(node)
-            for neighbor in self.field.get_neighbors(node):
-                if neighbor not in visited and neighbor not in q:
-                    q.append(neighbor)
-
-    def _min_reachable(self, node):
-        cost = float('inf')
-        result = None
-
-        for neighbor in self.field.get_neighbors(node):
-            if neighbor in self.node_labels and self.node_labels[neighbor] < cost and neighbor not in self.visited:
-                cost = self.node_labels[neighbor]
-                result = neighbor
-
-        return result
 
     def plan(self):
         self._bfs()
-        path = CoveragePath()
-        end_node = max(self.node_labels, key=self.node_labels.get)
-        path.add_node(end_node)
-        self.visited.add(end_node)
-
-        while not path.is_valid_path(self.field):
-            node = path.peek_right()
-            next_node = self._min_reachable(node)
-            if next_node:
-                path.add_node(next_node)
-                self.visited.add(next_node)
-            else:
-                print("path is impossible")
-                return None
-        
-        return path
-
-
+        plan = CoveragePath()
+        print(self.node_labels)
+        sorted_nodes = sorted(self.node_labels.items(), key=lambda x: x[1])
+        for node, _ in sorted_nodes:
+            plan.add_node(node)
+        return plan

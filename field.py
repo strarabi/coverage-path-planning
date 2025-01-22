@@ -5,15 +5,15 @@ import matplotlib.pyplot as plt
 class Field:
     """
     A configuration space representing a field being navigated by an unmanned aerial vehicle.
-    In this implementation, a field is implemented as a matrix with 0 representing free space,
-    1 representing an obstacle, and 2 representing the starting point. 
+    In this implementation, a field is implemented as a matrix with 0 representing free space and
+    1 representing an obstacle.
     """
     def __init__(self, length: int, width: int, obstacles: List[tuple], start: tuple):
         self.length = length
         self.width = width
         self.obstacles=set(obstacles)
         self.start = start
-        self.vals = {} # maps (x,y) tuples to one of [0, 1, 2]
+        self.vals = {} # maps (x,y) tuples to one of [0, 1]
         self._initialize_vals()
     
     def _initialize_vals(self):
@@ -65,13 +65,14 @@ class Field:
         for experiments with large fields.
         """
         M=[[0 for i in range(self.length)] for j in range(self.width)]
-        for obs in self.obstacles:
-            x,y=obs
-            M[y][x]=1
+        # for obs in self.obstacles:
+        #     x,y=obs
+        #     M[y][x]=1
         plt.imshow(M,cmap=matplotlib.colors.ListedColormap(['lightgray', 'firebrick'], name='colors', N=None))
         X = [p[0] for p in path.path]
         Y = [p[1] for p in path.path]
-        plt.plot(X,Y,'ko-')
+        plt.scatter(*zip(*self.obstacles), c='red')
+        plt.plot(X,Y,'k-')
         if grid:
             plt.xticks(range(self.length))
             plt.yticks(range(self.width))
