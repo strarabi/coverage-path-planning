@@ -3,8 +3,8 @@ from coverage_path import CoveragePath
 import heapq
 
 class AStar(Planner):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, field):
+        super().__init__(field)
 
     def _heuristic(self, n1: tuple, n2: tuple):
         """
@@ -33,6 +33,6 @@ class AStar(Planner):
                 if neighbor not in visited:
                     visited.add(neighbor)
                     path.add_node(neighbor)
-                    priority = len(visited) + self._heuristic(node, neighbor)
+                    priority = 1 + self._heuristic(node, neighbor) # can add a custom cost here
                     heapq.heappush(pq, (priority, neighbor))
         return path

@@ -9,7 +9,7 @@ class WavefrontExpansion(Planner):
         self.visited = set()
     
     def _bfs(self):
-        node_label = 2 # start at 3, since 0, and 1 are already used in the field
+        node_label = 2 # start at 2, since 0, and 1 are already used in the field
         q=deque()
         q.append(self.field.start)
         visited = set()

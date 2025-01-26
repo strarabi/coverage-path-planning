@@ -25,12 +25,23 @@ class Field:
         for x in range(self.length):
             for y in range(self.width):
                 pt = (x,y)
-                if pt == self.start:
-                    self.vals[pt] = 2
-                elif pt in self.obstacles:
+                if pt in self.obstacles:
                     self.vals[pt] = 1
                 else:
                     self.vals[pt] = 0
+    
+    def get_field(self) -> List[List]:
+        """
+        Returns binary representation of field. It is generally not necessary
+        to load the entire field into memory using this method, but some grid-based
+        algorithms like BCD require it.
+        """
+        field = [[0 for i in range(self.length)] for j in range(self.width)]
+        for x in range(self.length):
+            for y in range(self.width):
+                if self.vals[(x,y)]==1:
+                    field[x][y]=1
+        return field
     
     def is_valid(self, x, y) -> bool:
         """
