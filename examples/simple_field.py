@@ -2,7 +2,6 @@ import sys
 from os import path
 sys.path.append(path.dirname(path.dirname(path.abspath(__file__)))) # allow import from parent
 from field import Field
-from algs.a_star import AStar
 from algs.wavefront_expansion import WavefrontExpansion
 from algs.spanning_tree_coverage import SpanningTreeCoverage
 from algs.bcd import BoustrophedonCellularDecomposition
