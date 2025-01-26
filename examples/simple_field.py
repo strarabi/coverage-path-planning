@@ -16,7 +16,7 @@ simple_field = Field(
 )
 
 if __name__ == "__main__":
-    planner = BoustrophedonCellularDecomposition(simple_field)
+    planner = BAStar(simple_field)
     path = planner.plan()
     print(path)
     simple_field.visualize_path(path)
